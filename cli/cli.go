@@ -27,6 +27,7 @@ func (cli *CLI) printUsage() {
 	fmt.Println(" pem \t Manage private key")
 	fmt.Println(" mnemonic \t Manage mnemonic")
 	fmt.Println(" hash \t Manage hashing")
+	fmt.Println(" session \t Manage session")
 }
 
 //Demarre le cli

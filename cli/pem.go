@@ -53,6 +53,7 @@ func PEMPrintCli() {
 	handleParsingError(PemCMD)
 
 	if *new == true {
+		checkSession()
 		if *index < 1 {
 			log.Fatal("Wrong child index")
 		}

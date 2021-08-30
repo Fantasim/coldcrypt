@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"coldcrypt/util"
 	"encoding/hex"
 	"flag"
 	"log"
@@ -41,6 +42,16 @@ func doesMnemonicHashFileExist() bool {
 	return true
 }
 
+func isSessionActive() bool {
+	return os.Getenv("HISTFILE") == "/dev/null"
+}
+
+func checkSession() {
+	if !isSessionActive() {
+		log.Fatal("Please create a new safe session before executing any action: `source session.sh`")
+	}
+}
+
 func getMnemonicHashFile() string {
 	file := FOLDER_PATH + APP_ID
 	if doesMnemonicHashFileExist() {
@@ -59,8 +70,12 @@ func checkMnemonic(mnemonic string) {
 	}
 }
 
+func hash(data []byte) []byte {
+	return util.Sha256(util.Ripemd160(data))
+}
+
 func hashMnemonic(mnemonic string) string {
-	return hex.EncodeToString(([]byte(mnemonic + getPassphrase())))
+	return hex.EncodeToString(hash([]byte(mnemonic + getPassphrase())))
 }
 
 func checkHashEqualMnemonic(mnemonic string) {

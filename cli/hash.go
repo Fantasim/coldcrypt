@@ -1,17 +1,11 @@
 package cli
 
 import (
-	"coldcrypt/util"
-	"crypto"
 	"flag"
 	"fmt"
 	"log"
 	"os"
 )
-
-func hashing(data []byte) []byte {
-	return util.Sha256(util.Ripemd160(crypto.BLAKE2b_512.New().Sum((data))))
-}
 
 func HashPrintUsage() {
 	fmt.Println(" Options:")
@@ -33,12 +27,16 @@ func HashCli() {
 		hash := hashMnemonic(*mnemonic)
 		file := FOLDER_PATH + APP_ID
 		if !*printOnly {
+			checkSession()
 			if doesMnemonicHashFileExist() {
 				if getMnemonicHashFile() != hash {
 					log.Fatal("a mnemonic different than the current one has already been hashed. Please remove the folder .data to perform this action.")
+				} else {
+					fmt.Println("Hash already recorded")
 				}
 			} else {
-				os.WriteFile(file, []byte(hash), 0644)
+				handleError(os.WriteFile(file, []byte(hash), 0644))
+				fmt.Printf("SUCCESSFULLY saved in %s\nhash:%s/n", file, hash)
 			}
 		} else {
 			fmt.Println("hash:", hash)
@@ -46,5 +44,4 @@ func HashCli() {
 	} else {
 		HashPrintUsage()
 	}
-
 }
