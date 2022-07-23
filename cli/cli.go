@@ -24,14 +24,15 @@ type CLI struct {
 
 func (cli *CLI) printUsage() {
 	fmt.Println("Commands:")
-	fmt.Println(" pem \t Manage private key")
-	fmt.Println(" mnemonic \t Manage mnemonic")
-	fmt.Println(" hash \t Manage hashing")
-	fmt.Println(" session \t Manage session")
+	fmt.Println(" pem \t\t : Manage private key")
+	fmt.Println(" mnemonic \t : Manage mnemonic")
+	fmt.Println(" hash \t\t : Manage hashing")
+	fmt.Println(" session \t : Manage session")
 }
 
 //Demarre le cli
 func Start() {
+	checkSession()
 	cli := new(CLI)
 	cli.validateArgs()
 	flag.Parse()

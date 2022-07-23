@@ -6,14 +6,16 @@ import (
 	"encoding/base64"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
-	"os"
 	"strconv"
 )
 
 func PemPrintUsage() {
 	fmt.Println(" Options:")
-	fmt.Println(` --new --mnemonic [mnemonic-string] --index [index-int] \t Create and add new pem into list`)
+	fmt.Println(`	--new `)
+	fmt.Println(`	--mnemonic [mnemonic-string]`)
+	fmt.Println(`	--index [index-int]		Create and add new pem into list`)
 }
 
 func newPem(mnemonic string, childIndex int) {
@@ -32,7 +34,7 @@ func newPem(mnemonic string, childIndex int) {
 		content += "\n-----END EC PRIVATE KEY-----"
 
 		file := FOLDER_PATH + strconv.Itoa(childIndex) + ".pem"
-		return os.WriteFile(file, []byte(content), 0644)
+		return ioutil.WriteFile(file, []byte(content), 0644)
 	}
 
 	m, _, err := util.NewMasterKeyFromMnemonic(mnemonic, getPassphrase())

@@ -4,6 +4,7 @@ import (
 	"coldcrypt/util"
 	"encoding/hex"
 	"flag"
+	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -55,7 +56,7 @@ func checkSession() {
 func getMnemonicHashFile() string {
 	file := FOLDER_PATH + APP_ID
 	if doesMnemonicHashFileExist() {
-		content, err := os.ReadFile(file)
+		content, err := ioutil.ReadFile(file)
 		handleError(err)
 		return string(content)
 	}

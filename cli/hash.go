@@ -3,8 +3,8 @@ package cli
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
-	"os"
 )
 
 func HashPrintUsage() {
@@ -27,7 +27,6 @@ func HashCli() {
 		hash := hashMnemonic(*mnemonic)
 		file := FOLDER_PATH + APP_ID
 		if !*printOnly {
-			checkSession()
 			if doesMnemonicHashFileExist() {
 				if getMnemonicHashFile() != hash {
 					log.Fatal("a mnemonic different than the current one has already been hashed. Please remove the folder .data to perform this action.")
@@ -35,8 +34,8 @@ func HashCli() {
 					fmt.Println("Hash already recorded")
 				}
 			} else {
-				handleError(os.WriteFile(file, []byte(hash), 0644))
-				fmt.Printf("SUCCESSFULLY saved in %s\nhash:%s/n", file, hash)
+				handleError(ioutil.WriteFile(file, []byte(hash), 0644))
+				fmt.Printf("SUCCESSFULLY saved in %s\nhash:%s\n", file, hash)
 			}
 		} else {
 			fmt.Println("hash:", hash)
